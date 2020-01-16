@@ -4,7 +4,7 @@
 var user = {
     // 用户登录
     login: function(name, password) {
-        $.post("http://192.168.1.105:8000/admin/login", {
+        $.post(APILIST.user_login, {
             user_name: name,
             password: password
         }).then(function(res) {
@@ -22,7 +22,7 @@ var user = {
     },
     // 用户退出
     logout: function() {
-        $.post("http:///192.168.1.105:8000/admin/logout").then(function(res) {
+        $.post(APILIST.user_logout).then(function(res) {
             console.log(res);
             if (res.code === 200) {
                 alert("退出成功！")
@@ -38,7 +38,7 @@ var user = {
     getInfo: function() {
 
         //2.获取管理员信息并且显示
-        $.get("http://192.168.1.105:8000/admin/getuser").then(function(res) {
+        $.get(APILIST.user_getInfo).then(function(res) {
             console.log(res);
             // 用户名
             $("#username").html(res.data.nickname);
@@ -46,7 +46,7 @@ var user = {
             $("#userImg").attr("src", res.data.user_pic);
 
         })
-    },
+    }
 
 
 }
