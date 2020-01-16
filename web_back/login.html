@@ -67,7 +67,18 @@
                     alert("用户名或密码不能为空！")
                     return;
                 }
-                user.login(name, password)
+                // 优化：user.login(name, password)这个函数 添加.then()这个方法
+                user.login(name, password).then(function(res) {
+                    // console.log(res);
+                    // （2）反馈的后续动作
+                    if (res.code === 200) {
+                        // 跳转页面
+                        window.location.href = "./index.html";
+                    } else {
+                        // 失败，直接打印失败错误
+                        alert(res.msg);
+                    }
+                })
 
                 // 缺少语义
                 //jQuery的 promise格式 $.post(url,数据).then(回调)。（$.post快捷方式）

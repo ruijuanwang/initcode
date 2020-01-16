@@ -146,7 +146,17 @@
         // 1.2请求 退出接口
         $("#btnLogout").click(function() {
             // 2.请求退出接口
-            user.logout();
+            // 优化添加.then()
+            user.logout().then(function(res) {
+                console.log(res);
+                if (res.code === 200) {
+                    alert("退出成功！")
+                    window.location.href = "./login.html";
+                } else {
+                    alert(res.msg);
+                }
+
+            });
             // 无语义
             // $.post("http://10.253.10.194:8000/admin/logout").then(function(res) {
             //     console.log(res);
@@ -162,7 +172,15 @@
 
 
         //2.获取管理员信息并且显示
-        user.getInfo();
+        // 优化添加.then()
+        user.getInfo().then(function(res) {
+            console.log(res);
+            // 用户名
+            $("#username").html(res.data.nickname);
+            // 图片地址
+            $("#userImg").attr("src", res.data.user_pic);
+
+        });
         // $.get("http://192.168.1.105:8000/admin/getuser").then(function(res) {
         //     console.log(res);
         //     // 用户名
