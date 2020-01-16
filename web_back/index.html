@@ -108,22 +108,39 @@
     </script>
     <!-- 我的代码 -->
     <script>
-        // 退出思路：
-        // 1.绑定退出按钮，
-        // 2.请求 退出接口
+        // 定义一个对象，退出的方法(语义化)
+        var user = {
+                logout: function() {
+                    $.post("http://10.253.10.194:8000/admin/logout").then(function(res) {
+                        console.log(res);
+                        if (res.code === 200) {
+                            alert("退出成功！")
+                            window.location.href = "./login.html";
+                        } else {
+                            alert(res.msg);
+                        }
+
+                    })
+
+                }
+            }
+            // 退出思路：
+            // 1.绑定退出按钮，
+            // 2.请求 退出接口
         $("#btnLogout").click(function() {
             // 2.请求退出接口
+            user.logout();
             // 无语义
-            $.post("http://192.168.172.44:8000/admin/logout").then(function(res) {
-                console.log(res);
-                if (res.code === 200) {
-                    alert("退出成功！")
-                    window.location.href = "./login.html";
-                } else {
-                    alert(res.msg);
-                }
+            // $.post("http://10.253.10.194:8000/admin/logout").then(function(res) {
+            //     console.log(res);
+            //     if (res.code === 200) {
+            //         alert("退出成功！")
+            //         window.location.href = "./login.html";
+            //     } else {
+            //         alert(res.msg);
+            //     }
 
-            })
+            // })
         })
     </script>
 </body>
