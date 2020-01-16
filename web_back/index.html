@@ -106,27 +106,42 @@
             }
         }
     </script>
+    <!-- 引入user模块 -->
+    <script src="./js/util/user.js"></script>
     <!-- 我的代码 -->
     <script>
         // 定义一个对象，退出的方法(语义化)
-        var user = {
-                logout: function() {
-                    $.post("http://10.253.10.194:8000/admin/logout").then(function(res) {
-                        console.log(res);
-                        if (res.code === 200) {
-                            alert("退出成功！")
-                            window.location.href = "./login.html";
-                        } else {
-                            alert(res.msg);
-                        }
+        // var user = {
+        //         logout: function() {
+        //             $.post("http:///192.168.1.105:8000/admin/logout").then(function(res) {
+        //                 console.log(res);
+        //                 if (res.code === 200) {
+        //                     alert("退出成功！")
+        //                     window.location.href = "./login.html";
+        //                 } else {
+        //                     alert(res.msg);
+        //                 }
 
-                    })
+        //             })
 
-                }
-            }
-            // 1.退出思路：
-            // 1.1绑定退出按钮，
-            // 1.2请求 退出接口
+        //         },
+        //         getInfo: function() {
+
+        //             //2.获取管理员信息并且显示
+        //             $.get("http://192.168.1.105:8000/admin/getuser").then(function(res) {
+        //                 console.log(res);
+        //                 // 用户名
+        //                 $("#username").html(res.data.nickname);
+        //                 // 图片地址
+        //                 $("#userImg").attr("src", res.data.user_pic);
+
+        //             })
+        //         }
+        //     }
+        // ---------------------------------------------------------------
+        // 1.退出思路：
+        // 1.1绑定退出按钮，
+        // 1.2请求 退出接口
         $("#btnLogout").click(function() {
             // 2.请求退出接口
             user.logout();
@@ -145,14 +160,15 @@
 
 
         //2.获取管理员信息并且显示
-        $.get("http://10.253.10.194:8000/admin/getuser").then(function(res) {
-            console.log(res);
-            // 用户名
-            $("#username").html(res.data.nickname);
-            // 图片地址
-            $("#userImg").attr("src", res.data.user_pic);
+        user.getInfo();
+        // $.get("http://192.168.1.105:8000/admin/getuser").then(function(res) {
+        //     console.log(res);
+        //     // 用户名
+        //     $("#username").html(res.data.nickname);
+        //     // 图片地址
+        //     $("#userImg").attr("src", res.data.user_pic);
 
-        })
+        // })
     </script>
 </body>
 
