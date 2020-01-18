@@ -28,23 +28,21 @@
                         <th class="text-center" width="100">操作</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="category_table">
                     <tr>
                         <td>未分类</td>
                         <td>uncategorized</td>
                         <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;1&quot;,&quot;slug&quot;:&quot;uncategorized&quot;,&quot;name&quot;:&quot;未分类&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
+                            <a href="javascript:editTr({&quot;id&quot;:&quot;1&quot;,&quot;slug&quot;:&quot;uncategorized&quot;,&quot;name&quot;:&quot;未分类&quot;});" class="btn btn-info btn-xs">编辑</a>
                             <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs">删除</a>
                         </td>
                     </tr>
 
-                    <tr>
+                    <!-- <tr>
                         <td>奇趣事</td>
                         <td>funny</td>
                         <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;2&quot;,&quot;slug&quot;:&quot;funny&quot;,&quot;name&quot;:&quot;奇趣事&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
+                            <a href="javascript:editTr({&quot;id&quot;:&quot;2&quot;,&quot;slug&quot;:&quot;funny&quot;,&quot;name&quot;:&quot;奇趣事&quot;});" class="btn btn-info btn-xs">编辑</a>
                             <a href="javascript:deleteTr( 2 );" class="btn btn-danger btn-xs">删除</a>
                         </td>
                     </tr>
@@ -53,8 +51,7 @@
                         <td>会生活</td>
                         <td>living</td>
                         <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;3&quot;,&quot;slug&quot;:&quot;living&quot;,&quot;name&quot;:&quot;会生活&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
+                            <a href="javascript:editTr({&quot;id&quot;:&quot;3&quot;,&quot;slug&quot;:&quot;living&quot;,&quot;name&quot;:&quot;会生活&quot;});" class="btn btn-info btn-xs">编辑</a>
                             <a href="javascript:deleteTr( 3 );" class="btn btn-danger btn-xs">删除</a>
                         </td>
                     </tr>
@@ -63,11 +60,10 @@
                         <td>爱旅行</td>
                         <td>travel</td>
                         <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;4&quot;,&quot;slug&quot;:&quot;travel&quot;,&quot;name&quot;:&quot;爱旅行&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
+                            <a href="javascript:editTr({&quot;id&quot;:&quot;4&quot;,&quot;slug&quot;:&quot;travel&quot;,&quot;name&quot;:&quot;爱旅行&quot;});" class="btn btn-info btn-xs">编辑</a>
                             <a href="javascript:deleteTr( 4 );" class="btn btn-danger btn-xs">删除</a>
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
                 <tfoot>
                     <tr>
@@ -128,7 +124,40 @@
         //         $('#addModal .modal-title').html('修改分类名称');
         //         $('#addModal').modal('show');
         //     }
-        // })      
+        // })
+    </script>
+    <!-- 引入接口地址config文件 -->
+    <script src="./js/util/config.js"></script>
+    <!-- 引入文章category文件 -->
+    <script src="./js/util/category.js"></script>
+    <!-- 引入模板引擎文件 -->
+    <script src="./js/template-web.js"></script>
+
+
+    <!-- 2.模板引擎 -->
+    <script type="text/html" id="tem_cate">
+        <!-- 需要循环 -->
+        {{each data item}}
+        <tr>
+            <td>{{item.name}}</td>
+            <td>{{item.slug}}</td>
+            <td class="text-center">
+                <a href="javascript:editTr({&quot;id&quot;:&quot;1&quot;,&quot;slug&quot;:&quot;uncategorized&quot;,&quot;name&quot;:&quot;未分类&quot;});" class="btn btn-info btn-xs">编辑</a>
+                <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs">删除</a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+    <script>
+        // 获取文章列表思路：
+        // 1.页面加载，请求接口取数据，渲染表格中
+        category.get().then(function(res) {
+            console.log(res);
+            // 2.渲染表格，定义一个模板引擎
+            var htmlStr = template('tem_cate', res)
+                // 显示在tbody中
+            $("#category_table").html(htmlStr);
+        })
     </script>
 
 </body>
