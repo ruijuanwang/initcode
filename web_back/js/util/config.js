@@ -19,6 +19,9 @@ var APILIST = {
     // 添加文章分类
     category_add: BASEUPL + "/admin/category_add",
     // 删除文章分类
-    category_del: BASEUPL + "/admin/category_delete"
+    category_del: BASEUPL + "/admin/category_delete",
+    // 编辑文章分类
+    category_edit: BASEUPL + "/admin/category_edit"
+
 
 }
