@@ -3,7 +3,7 @@
 
 
 // BASEUPL变量 存放所有接口的基地址
-var BASEUPL = 'http://192.168.0.103:8000';
+var BASEUPL = 'http://192.168.2.105:8000';
 
 // APILIST对象 用来保存所有的接口信息
 var APILIST = {
@@ -15,5 +15,10 @@ var APILIST = {
     user_getInfo: BASEUPL + "/admin/getuser",
 
     // 获取文章类别管理信息
-    category_get: BASEUPL + "/admin/category_search"
+    category_get: BASEUPL + "/admin/category_search",
+    // 添加文章分类
+    category_add: BASEUPL + "/admin/category_add",
+    // 删除文章分类
+    category_del: BASEUPL + "/admin/category_delete"
+
 }
