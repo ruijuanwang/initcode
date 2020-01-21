@@ -81,8 +81,9 @@
             </table>
 
             <div class="row text-center">
-                <ul class="pagination pagination-sm">
-                    <li class="page-item first disabled"><a href="#" class="page-link">首页</a></li>
+                <ul class="pagination pagination-sm" id="pagination">
+
+                    <!-- <li class="page-item first disabled"><a href="#" class="page-link">首页</a></li>
                     <li class="page-item prev disabled"><a href="#" class="page-link">上一页</a></li>
                     <li class="page-item active"><a href="#" class="page-link">1</a></li>
                     <li class="page-item"><a href="#" class="page-link">2</a></li>
@@ -92,7 +93,7 @@
                     <li class="page-item"><a href="#" class="page-link">6</a></li>
                     <li class="page-item"><a href="#" class="page-link">7</a></li>
                     <li class="page-item next"><a href="#" class="page-link">下一页</a></li>
-                    <li class="page-item last"><a href="#" class="page-link">尾页</a></li>
+                    <li class="page-item last"><a href="#" class="page-link">尾页</a></li> -->
                 </ul>
             </div>
 
@@ -111,6 +112,8 @@
     <script src="./js/util/category.js"></script>
     <script src="./js/template-web.js"></script>
     <script src="./js/util/article.js"></script>
+    <!-- 引入分页插件 -->
+    <script src="../js库/jquery.twbsPagination.js"></script>
 
     <!-- 下拉菜单 -->
     <script id="tem_category" type="html/text">
@@ -137,6 +140,7 @@
 
     </script>
     <script>
+        var curPage = 2; //页码
         // 1.获取所有文章类别，并且显示在下拉列表中
         category.get().then(function(res) {
                 // console.log(res);
@@ -148,18 +152,40 @@
             // 2.获取文章列表，显示在表格
             // 思路：
             // 调用接口，获取数据，用arttempaltte渲染到表格
-        article.get().then(function(res) {
-            console.log(res);
-            if (res.code === 200) {
-                // 获取成功，渲染页面
-                var htmlStr = template("tem_table", res)
-                    // 插入页面
-                $("#tbody").html(htmlStr)
+        getAndShow();
 
-            } else {
-                alert(res.msg)
-            }
-        })
+        function getAndShow() {
+            article.get(curPage).then(function(res) {
+                console.log(res);
+                if (res.code === 200) {
+                    //(1) 获取成功，渲染页面
+                    var htmlStr = template("tem_table", res)
+                        // 插入页面
+                    $("#tbody").html(htmlStr)
+                        // (2)设置分页插件
+                    $('#pagination').twbsPagination({
+                        totalPages: res.totalPage,
+                        visiblePages: 5,
+                        first: '首页',
+                        last: '尾页',
+                        prev: '上一页',
+                        next: '下一页',
+                        initiateStartPageClick: false, //初始时不要去点击起始页
+                        onPageClick: function(event, page) {
+                            // 这里的page指的是当前点击的页码数
+                            curPage = page;
+                            // 重新去取，page页的数据，
+                            // alert(page)
+                            getAndShow();
+                        }
+                    });
+
+
+                } else {
+                    alert(res.msg)
+                }
+            })
+        }
     </script>
 
 </body>
