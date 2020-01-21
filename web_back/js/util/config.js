@@ -21,7 +21,8 @@ var APILIST = {
     // 删除文章分类
     category_del: BASEUPL + "/admin/category_delete",
     // 编辑文章分类
-    category_edit: BASEUPL + "/admin/category_edit"
-
+    category_edit: BASEUPL + "/admin/category_edit",
+    // 获取文章列表
+    article_get: BASEUPL + "/admin/search"
 
 }

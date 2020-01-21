@@ -15,4 +15,6 @@ var category = {
     edit: function(id, name, slug) {
         return $.post(APILIST.category_edit, { 'id': id, 'name': name, 'slug': slug })
     }
+
+
 }
