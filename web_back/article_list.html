@@ -30,11 +30,12 @@
                             <option>爱旅行</option> -->
                         </select>
                         <select id="selStatus" name="" class="form-control input-sm">
-                            <option>所有状态</option>
-                            <option value="drafted">草稿</option>
-                            <option value="published">已发布</option>
+                            <option value="">所有状态</option>
+                            <option value="草稿">草稿</option>
+                            <option value="已发布">已发布</option>
                         </select>
-                        <button id="btnSearch" class="btn btn-default btn-sm">筛选</button>
+                        <!-- 如果form表单中的按钮没有type，则他会默认提交这个表单 -->
+                        <button id="btnSearch" type="button" class="btn btn-default btn-sm">筛选</button>
                     </form>
                 </div>
                 <div class="col-xs-6">
@@ -117,8 +118,9 @@
 
     <!-- 下拉菜单 -->
     <script id="tem_category" type="html/text">
+        <option value="">所有分类</option>
         {{each data item}}
-        <option>{{item.name}}</option>
+        <option value={{item.id}}>{{item.name}}</option>
         {{/each}}
 
     </script>
@@ -140,7 +142,11 @@
 
     </script>
     <script>
-        var curPage = 2; //页码
+        var curPage = 2; //全局变量，表示当前要查询第几页的数据
+        var curType = ''; //全局变量，表示当前要查询的文章的类型编号
+        var curStatus = ''; //全局变量，表示当前要查询的文章的状态
+        var curTotalPage; //记录上一次获取的总页数
+
         // 1.获取所有文章类别，并且显示在下拉列表中
         category.get().then(function(res) {
                 // console.log(res);
@@ -155,7 +161,7 @@
         getAndShow();
 
         function getAndShow() {
-            article.get(curPage).then(function(res) {
+            article.get(curPage, curType, curStatus).then(function(res) {
                 console.log(res);
                 if (res.code === 200) {
                     //(1) 获取成功，渲染页面
@@ -163,6 +169,15 @@
                         // 插入页面
                     $("#tbody").html(htmlStr)
                         // (2)设置分页插件
+                        // 如果前后两次回去的页码数不一样，则要把分页插件：
+                        // destroy()  摧毁重建
+                        // 再来重新设置
+                        // 这样才能保证页码正常显示
+                    if (curTotalPage !== res.totalPage) {
+                        $('#pagination').twbsPagination('destroy')
+                        curTotalPage = res.totalPage
+                    }
+                    // 分页插件
                     $('#pagination').twbsPagination({
                         totalPages: res.totalPage,
                         visiblePages: 5,
@@ -186,6 +201,20 @@
                 }
             })
         }
+
+        // 3.文章筛选
+        // 思路：点击筛选按钮
+        // （1）获取用户当前的选择、
+        // （2）调用接口，传入用户选项
+        $("#btnSearch").click(function() {
+            curType = $("#selCategory").val() //当前文章类型编号
+            curStatus = $("#selStatus").val() //当前文章的状态
+            console.log(curType, curStatus);
+
+            // 查询并且显示, 页码
+            getAndShow();
+
+        })
     </script>
 
 </body>
