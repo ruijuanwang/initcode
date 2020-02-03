@@ -23,28 +23,28 @@
             写文章
         </div>
         <div class="container-fluid common_con">
-            <form class="form-horizontal article_form">
+            <form class="form-horizontal article_form" id="myform">
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章标题：</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail3" placeholder="文章标题">
+                        <input type="email" name="title" class="form-control" id="inputEmail3" placeholder="文章标题">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
                     <div class="col-sm-10">
-                        <input type="file" id="exampleInputFile">
+                        <input name="cover" type="file" id="exampleInputFile">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
-                        <select class="form-control">
-                            <option>1</option>
+                        <select id="selCategory" class="form-control" name="type">
+                            <!-- <option>1</option>
                             <option>2</option>
                             <option>3</option>
                             <option>4</option>
-                            <option>5</option>
+                            <option>5</option> -->
                         </select>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                     <div class="col-sm-4">
 
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="dateinput">
+                            <input type="text" name="date" class="form-control" placeholder="YYYY-MM-DD" id="dateinput">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button"
                                     onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})"><i
@@ -66,20 +66,63 @@
                     <label for="inputEmail3" class="col-sm-2 control-label">文章内容：</label>
                     <div class="col-sm-10">
                         <textarea class="form-control" id="rich_content" name="content" placeholder="文章内容">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda fugiat illo nihil molestias ab. Laborum eius non atque, totam sapiente quae obcaecati assumenda ratione inventore pariatur maiores, qui libero delectus.
+                           请在这里输入内容
                             </textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success">发布</button>
-                        <button type="submit" class="btn btn-default">存为草稿</button>
+                        <button type="button" class="btn btn-success" id="btnAdd">发布</button>
+                        <button type="button" class="btn btn-default">存为草稿</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+    <script src="./js/util/config.js"></script>
+    <script src="./js/util/article.js"></script>
+    <script src="./js/util/category.js"></script>
+    <script src="./js/template-web.js"></script>
 
+
+    <script id="tmp" type="text/html">
+        {{each data item}}
+        <option value="{{item.id}}">{{item.name}}</option>
+        {{/each}}
+    </script>
+
+    <script>
+        // 1.发布文章
+        // 思路：
+        // 给butAdd添加点击事件
+        // 收集用户信息，简单判断
+        // 调用接口，实现添加，根据反馈，做后续操作
+        $("#btnAdd").click(function() {
+                // alert(1)
+                // 获取表单中用户信息
+                // 注意form表单元素必须要有name属性，并且要与接口中需要的参数保持一致
+                var fd = new FormData(document.getElementById("myform")) //表单要有name
+                    // 手动补充一个参数
+                fd.append('state', '已发布')
+                    // 获取富文本的内容
+                fd.set('content', tinyMCE.activeEditor.getContent())
+
+                article.add(fd).then(function(res) {
+                    console.log(res);
+
+                })
+            })
+            // 2.获取文章类别，并显示 
+        category.get().then(function(res) {
+            console.log(res);
+            if (res.code == 200) {
+                var htmlStr = template('tmp', res)
+                $('#selCategory').html(htmlStr)
+            } else {
+                alert(res.msg)
+            }
+        })
+    </script>
 </body>
 
 </html>

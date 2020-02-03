@@ -12,13 +12,23 @@ var article = {
     // add: function(name, slug) {
     //     return $.post(APILIST.category_add, { 'name': name, 'slug': slug })
     // },
-    // // 删除文章分类
-    // del: function(id) {
-    //     return $.post(APILIST.category_del, { 'id': id });
-    // },
+    // 删除文章
+    del: function(id) {
+        return $.get(APILIST.article_del, { 'id': id });
+    },
     // edit: function(id, name, slug) {
     //     return $.post(APILIST.category_edit, { 'id': id, 'name': name, 'slug': slug })
     // }
+    add: function(fd) {
+        return $.ajax({
+            url: 'http://192.168.2.104:8000/admin/article_publish',
+            type: 'post',
+            data: fd,
+            processData: false, //不允许处理数据
+            contentType: false, //不要设置请求头
+
+        })
+    }
 
 
 }

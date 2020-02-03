@@ -23,6 +23,12 @@ var APILIST = {
     // 编辑文章分类
     category_edit: BASEUPL + "/admin/category_edit",
     // 获取文章列表
-    article_get: BASEUPL + "/admin/search"
+    article_get: BASEUPL + "/admin/search",
+    // 删除文章
+    article_del: BASEUPL + "/admin/article_delete",
+    // 添加文章
+    article_add: BASEUPL + "/admin/article_publish",
+
+
 
 }

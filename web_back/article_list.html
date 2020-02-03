@@ -135,7 +135,7 @@
             <td class="text-center">{{item.state}}</td>
             <td class="text-center">
                 <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
-                <a href="javascript:deleteTr( 1005 );" class="btn btn-danger btn-xs">删除</a>
+                <a href="javascript:;" data-id="{{item.id}}" class="btn btn-danger btn-xs del">删除</a>
             </td>
         </tr>
         {{/each}}
@@ -207,12 +207,36 @@
         // （1）获取用户当前的选择、
         // （2）调用接口，传入用户选项
         $("#btnSearch").click(function() {
-            curType = $("#selCategory").val() //当前文章类型编号
-            curStatus = $("#selStatus").val() //当前文章的状态
-            console.log(curType, curStatus);
+                curType = $("#selCategory").val() //当前文章类型编号
+                curStatus = $("#selStatus").val() //当前文章的状态
+                    // console.log(curType, curStatus);
 
-            // 查询并且显示, 页码
-            getAndShow();
+                // 查询并且显示, 页码
+                getAndShow();
+
+            })
+            //4.删除
+            // 思路：
+            // （1）给父容器添加事件委托，实现删除按钮的点击
+            // （2）获取id，调用接口，根据反馈 ，做后续操作
+        $("#tbody").on("click", ".del", function() {
+            // confirm是window提供的
+            // 原则：让带吗尽早结束
+            if (!confirm('你确定要删除吗')) {
+                return
+            }
+            var id = $(this).attr('data-id');
+            // console.log(id);
+            article.del(id).then(function(res) {
+                console.log(res);
+                if (res.code === 200) {
+                    getAndShow();
+                } else {
+                    alert(res.msg)
+                }
+
+            })
+
 
         })
     </script>
