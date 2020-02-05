@@ -4,7 +4,8 @@
 
 // BASEUPL变量 存放所有接口的基地址
 // var BASEUPL = 'http://192.168.2.103:8000';
-var BASEUPL = 'http://localhost:8000';
+// var BASEUPL = 'http://localhost:8000';
+var BASEUPL = 'http://39.99.130.177:8000';
 
 // APILIST对象 用来保存所有的接口信息
 var APILIST = {
@@ -29,8 +30,10 @@ var APILIST = {
     article_del: BASEUPL + "/admin/article_delete",
     // 添加文章
     article_add: BASEUPL + "/admin/article_publish",
-    // 获取文章
-    article_get: BASEUPL + "/admin/search",
+
+
+    // 保存修改的文章
+    article_edit: BASEUPL + "/admin/article_edit",
 
 
 
