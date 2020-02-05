@@ -113,6 +113,9 @@
                     console.log(res);
                     if (res.code === 201) {
                         alert("发布成功!");
+                        // reset是表单（dom对象）的方法
+                        // 用来重置
+                        $('#myform')[0].reset();
                     } else {
                         alert(res.msg)
                     }
