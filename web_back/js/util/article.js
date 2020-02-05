@@ -21,7 +21,7 @@ var article = {
     // }
     add: function(fd) {
         return $.ajax({
-            url: 'http://192.168.2.104:8000/admin/article_publish',
+            url: APILIST.article_add,
             type: 'post',
             data: fd,
             processData: false, //不允许处理数据
