@@ -28,7 +28,10 @@ var article = {
             contentType: false, //不要设置请求头
 
         })
-    }
-
+    },
+    // 根据id去获取文章的详情
+    getById: function(id) {
+        return $.get(APILIST.article_get, { 'id': id })
+    },
 
 }

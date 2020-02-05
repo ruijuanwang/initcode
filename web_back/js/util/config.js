@@ -29,6 +29,8 @@ var APILIST = {
     article_del: BASEUPL + "/admin/article_delete",
     // 添加文章
     article_add: BASEUPL + "/admin/article_publish",
+    // 获取文章
+    article_get: BASEUPL + "/admin/search",
 
 
 
