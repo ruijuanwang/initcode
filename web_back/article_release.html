@@ -111,6 +111,11 @@
 
                 article.add(fd).then(function(res) {
                     console.log(res);
+                    if (res.code === 200) {
+                        alert("发布成功!");
+                    } else {
+                        alert(res.msg)
+                    }
 
                 })
             })
@@ -133,7 +138,7 @@
             // 用户在input上进行了操作
             // this指当前dom元素
 
-            // console.log(this.files); //this.files当前用户所有选中的文件方在这个集合中
+            // console.log(this.files); //this.files当前用户所有选中的文件放在这个集合中
             // console.log(this.files[0]); //选中的第一个文件
             // 1.获取当前用户所选中的那个文件
             var curFile = this.files[0];
