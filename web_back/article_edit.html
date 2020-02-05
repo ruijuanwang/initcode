@@ -147,6 +147,8 @@
                     var htmlStr = template('cate', res)
                         // 写入select
                     $('#type').html(htmlStr)
+                        // 让一个下拉框选中指定的文章的类型
+                        // $('#type').val(1580867650235)  在  getAndShow(id)方法中补充
                         // 类别获取完成后，再去获取并显示文章信息
                     getAndShow(id)
 
