@@ -8,6 +8,11 @@ var category = {
     add: function(name, slug) {
         return $.post(APILIST.category_add, { 'name': name, 'slug': slug })
     },
+    // 获取文章详情
+    // id：文章编号
+    getDetail: function(id) {
+        return $.get(APILIST.article_detail, { 'id': id })
+    }
 
 
 }

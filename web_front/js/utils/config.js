@@ -21,9 +21,11 @@ var APILIST = {
     article_rank: BASEUPL + "/rank",
 
     // 获取最新的资讯
-    article_last: BASEUPL + '/lastest'
+    article_last: BASEUPL + '/lastest',
 
 
+    // 获取文章详情
+    article_detail: BASEUPL + '/article'
 
 
 }
