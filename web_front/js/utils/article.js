@@ -25,7 +25,13 @@ var article = {
       // 获取最新资讯
         getLastest: function() {
         return $.get(APILIST.article_last)
-    }
+    },
+    //获取文章列表
+    // type: 文章类型编号
+    // page: 当前第几页
+    getList: function(type, page) {
+        return $.get(APILIST.article_get, { 'type': type, 'page': page })
+    },
 
 
 }
