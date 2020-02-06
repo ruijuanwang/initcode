@@ -228,6 +228,20 @@
                 $('#content').html(t.content)
                 $('#date').html(t.date)
                     // 上一章，下一章文章导航
+                    // 有的没有上下章，所以要先判断
+
+                if (t.next) {
+                    $('#next').attr('href', './article.html?id=' + t.next.id)
+                    $('#next').text(t.next.title)
+                } else {
+                    $('#next').text("无")
+                }
+                if (t.prev) {
+                    $('#prev').attr('href', './article.html?id=' + t.prev.id)
+                    $('#prev').text(t.prev.title)
+                } else {
+                    $('#prev').text("无")
+                }
 
                 $('#read').html(t.read)
                 $('#title').html(t.title)
