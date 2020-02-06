@@ -8,10 +8,7 @@
     <title>大事件-列表页</title>
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="css/jquery.pagination.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
-	<script type="text/javascript" src="js/jquery.pagination.min.js"></script>
 </head>
 
 <body>
@@ -31,23 +28,23 @@
         <div class="menu">
             <div class="menu_collapse fl">
                 <a href="javascript:;" class="level_one"><i class="fa fa-list-ul"></i>全部分类</a>
-                <ul class="level_two">
+                <ul class="level_two" id="lever_two_menu">
                     <li class="up"></li>
-                    <li><a href="#">最 新</a></li>
+                    <!-- <li><a href="#">最 新</a></li>
                     <li><a href="#">科 技</a></li>
                     <li><a href="#">股 市</a></li>
                     <li><a href="#">商 品</a></li>
                     <li><a href="#">外 汇</a></li>
-                    <li><a href="#">公 司</a></li>
+                    <li><a href="#">公 司</a></li> -->
                 </ul>
             </div>
-            <ul class="left_menu fl">
-                <li><a href="#">最 新</a></li>
+            <ul class="left_menu fl" id="left_menu">
+                <!-- <li><a href="#">最 新</a></li>
                 <li><a href="#">科 技</a></li>
                 <li><a href="#">股 市</a></li>
                 <li><a href="#">商 品</a></li>
                 <li><a href="#">外 汇</a></li>
-                <li><a href="#">公 司</a></li>
+                <li><a href="#">公 司</a></li> -->
             </ul>
             <ul class="right_menu fr">
                 <li><a href="#">科技专题</a></li>
@@ -140,7 +137,7 @@
                 $(function() {
                     $("#pagination").pagination({
                         currentPage: 2,
-                        totalPage:8,
+                        totalPage: 8,
                         callback: function(current) {
                             alert('ok!');
                         }
@@ -220,12 +217,62 @@
             <span>|</span>
             <a href="#">招聘人才</a>
             <span>|</span>
-            <a href="#">友情链接</a>		
+            <a href="#">友情链接</a>
         </div>
-        <p>CopyRight © 2019 深圳大事件信息技术股份有限公司   All Rights Reserved</p>
-        <p>电话：0755-****888    粤ICP备*******8号</p>
+        <p>CopyRight © 2019 深圳大事件信息技术股份有限公司 All Rights Reserved</p>
+        <p>电话：0755-****888 粤ICP备*******8号</p>
     </div>
 
+
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <script src="./js/template-web.js"></script>
+    <script src="./js/utils/config.js"></script>
+    <script src="./js/utils/category.js"></script>
+    <script src="./js/utils/article.js"></script>
+
+    <!--
+     文章类型
+    把当前的列表中对应的文章编号高亮显示
+    如果id=1， 则科学被选中状态 高亮显示
+    -->
+    <script id='cate' type="text/html">
+        {{each data item}} {{if item.id==curId}}
+        <li class='cur'><a href="./list.html?id={{item.id}}">{{item.name}}</a></li>
+
+        {{else}}
+        <li><a href="./list.html?id={{item.id}}">{{item.name}}</a></li>
+        {{/if}} {{/each}}
+    </script>
+    <script>
+        // 1.文章类别获取并且高亮显示
+        // 思路：
+        // 在其他页面跳转时，传入id   list.html?id=xxx
+        // 在list.html中的地址栏中获取id
+        // 调用接口，获取数据，使用template渲染、
+        // 高亮的效果是通过在模板中进行判断，来决定是否要添加cur类
+
+        // （1）地址栏中获取id
+        // window.localtion  http://127.0.0.1:5500/web_front/list.html?id=1
+        // window.location.search  ?id=1
+        // window.location.search.substr(4) 1
+        var id = window.location.search.substr(4);
+        console.log(id);
+
+
+        // （2）获取文章的类别并显示页面
+        category.get().then(function(res) {
+            // 添加一个属性，用于判断高亮
+            res.curId = id
+            console.log(res);
+            if (res.code === 200) {
+                // 渲染结构
+                var htmlStr = template('cate', res);
+                $("#left_menu").html(htmlStr)
+                $("#lever_two_menu").append(htmlStr)
+            }
+
+        })
+    </script>
 </body>
 
 </html>
