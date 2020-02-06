@@ -208,6 +208,7 @@
     <script src="./js/utils/config.js"></script>
     <script src="./js/utils/category.js"></script>
     <script src="./js/utils/article.js"></script>
+    <script src="./js/utils/comment.js"></script>
 
     <script>
         // 1.文章详情页面显示
@@ -263,6 +264,22 @@
                 alert('不能为空！')
                 return;
             }
+
+            // （2）调用接口，根据反馈做后续动作
+            comment.add(name, content, id).then(function(res) {
+                console.log(res);
+                if (res.code === 200) {
+                    // 评论成功
+                    // 1.清空评论区域
+                    $("#comment_name").val('')
+                    $("#comment_input").val('')
+                        // 2.重新加载评论并且显示
+                } else {
+                    alert(res.msg)
+                }
+
+            })
+
         })
     </script>
 </body>
