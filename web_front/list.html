@@ -73,7 +73,7 @@
         <div class="right_con setfl">
             <div class="common_wrap">
                 <h3><i class="fa fa-bar-chart"></i> 一周热门排行</h3>
-                <ul class="content_list">
+                <ul class="content_list" id="rank">
                     <li><span class="first">1</span><a href="#">神奇的水滴摄影，泡泡中的世界泡泡中的世界</a></li>
                     <li><span class="second">2</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
                     <li><span class="third">3</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
@@ -184,6 +184,19 @@
         </div>
         {{/each}}
     </script>
+    <!-- 热门排行 -->
+    <!-- 前三个有自己的class -->
+    <script id='tmpRank' type="text/html">
+        {{each data item idx}} {{if idx==0}}
+        <li><span class="first">{{idx+1}}</span><a href="#">{{item.title}}</a></li>
+        {{else if idx==1}}
+        <li><span class="second">{{idx+1}}</span><a href="#">{{item.title}}</a></li>
+        {{else if idx==2}}
+        <li><span class="third">{{idx+1}}</span><a href="#">{{item.title}}</a></li>
+        {{else}}
+        <li><span>{{idx+1}}</span><a href="#">{{item.title}}</a></li>
+        {{/if}} {{/each}}
+    </script>
     <script>
         // 1.文章类别获取并且高亮显示
         // 思路：
@@ -257,6 +270,22 @@
             })
 
         }
+        // （5）文章热门排行
+        // 思路：
+        // 传id，调用接口，获取数据，渲染页面
+
+        article.getRank(id).then(function(res) {
+            // console.log(res);
+            if (res.code === 200) {
+                // 渲染
+                var htmrStr = template('tmpRank', res)
+                $("#rank").html(htmrStr);
+            } else {
+                alert(res.msg)
+            }
+
+
+        })
     </script>
 </body>
 
