@@ -14,8 +14,8 @@ var APILIST = {
     // 获取文章类别管理信息
     category_get: BASEUPL + "/category",
 
-    // 获取文章列表
-    article_get: BASEUPL + "/admin/search",
+    // 获取文章焦点图
+    article_get: BASEUPL + "/search",
 
 
 }

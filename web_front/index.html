@@ -55,8 +55,8 @@
 
     <div class="main_con clearfix">
         <div class="left_con">
-            <ul class="focus_list">
-                <li class="first">
+            <ul class="focus_list" id="focus_list">
+                <!-- <li class="first">
                     <a href="#"><img src="images/pic01.jpg" alt=""></a>
                     <p>图片说明</p>
                 </li>
@@ -75,7 +75,7 @@
                 <li>
                     <a href="#"><img src="images/pic06.jpg" alt=""></a>
                     <p>图片说明</p>
-                </li>
+                </li> -->
             </ul>
 
             <div class="common_title">
@@ -224,11 +224,26 @@
     <script src="./js/template-web.js"></script>
     <script src="./js/utils/config.js"></script>
     <script src="./js/utils/category.js"></script>
+    <script src="./js/utils/article.js"></script>
     <!-- 文章类型 -->
     <script id='cate' type="text/html">
         {{each data item}}
         <li><a href="./list.html?id={{item.id}}">{{item.name}}</a></li>
         {{/each}}
+    </script>
+    <!-- 文章焦点图 -->
+    <script id='focus' type="text/html">
+        {{each data item idx}} {{if idx==0}}
+        <li class="first">
+            {{else}}
+            <li>
+                {{/if}}
+                <a href="#"><img src="{{item.cover}}" alt=""></a>
+                <p>{{item.title}}</p>
+            </li>
+
+
+            {{/each}}
     </script>
     <script>
         // 1.获取文章的类别并显示
@@ -241,8 +256,18 @@
             }
 
         })
+
+
+        // 2.获取焦点图并且显示
+        article.getFouceFive().then(function(res) {
+            console.log(res);
+            // 渲染
+            var htmrStr = template('focus', res)
+            $("#focus_list").html(htmrStr);
+
+        })
     </script>
 
 </body>
 
-</html>
+</html>s
