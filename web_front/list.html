@@ -173,8 +173,8 @@
 
         {{each data item}}
         <div class="common_news_list">
-            <a href="#" class="list_pic"><img src="{{item.cover}}" alt=""></a>
-            <h4><a href="#">{{item.title}} </a></h4>
+            <a href="./article.html?id={{item.id}}" class="list_pic"><img src="{{item.cover}}" alt=""></a>
+            <h4><a href="./article.html?id={{item.id}}">{{item.title}} </a></h4>
             <p>{{item.intro}}</p>
             <div class="new_info">
                 <span>标签：{{item.type}}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<i class="fa fa-eye"></i>&nbsp;阅读( {{item.read}}
