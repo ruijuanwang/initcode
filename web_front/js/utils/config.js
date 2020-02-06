@@ -28,7 +28,10 @@ var APILIST = {
     article_detail: BASEUPL + '/article',
 
     // 添加评论
-    comment_add: BASEUPL + '/post_comment'
+    comment_add: BASEUPL + '/post_comment',
+
+    // 获取评论
+    comment_get: BASEUPL + '/get_comments'
 
 
 }

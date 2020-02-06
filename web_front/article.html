@@ -95,8 +95,8 @@
                 4条评论
             </div>
 
-            <div class="comment_list_con">
-                <div class="comment_detail_list">
+            <div class="comment_list_con" id="comment_list">
+                <!-- <div class="comment_detail_list">
                     <div class="person_pic fl">乔</div>
                     <div class="name_time fl"><b>虚竹</b><span>4小时前</span></div>
                     <div class="comment_text fl">
@@ -123,7 +123,7 @@
                     <div class="comment_text fl">
                         遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="right_con setfl">
@@ -210,6 +210,25 @@
     <script src="./js/utils/article.js"></script>
     <script src="./js/utils/comment.js"></script>
 
+    <!-- 引入日期时间的js库 dayjs -->
+    <script src="./js/dayjs/dayjs.min.js"></script>
+    <script src="./js/dayjs/zh_cn.js"></script>
+    <script src="./js/dayjs/relative.min.js"></script>
+
+    <!-- 评论 -->
+    <script id="tmp" type="text/html">
+        {{each data item}}
+        <div class="comment_detail_list">
+            <div class="person_pic fl">{{item.name.substr(0,1)}}</div>
+            <div class="name_time fl"><b>{{item.name}}</b><span>{{item.dt}}</span></div>
+            <div class="comment_text fl">
+                {{item.content}}
+            </div>
+        </div>
+        {{/each}}
+
+    </script>
+
     <script>
         // 1.文章详情页面显示
         // 思路
@@ -219,7 +238,7 @@
             // console.log(id);
             // (2)调用接口，获取数据
         category.getDetail(id).then(function(res) {
-                console.log(res);
+                // console.log(res);
                 if (res.code === 200) {
                     var t = res.data;
                     // 渲染页面
@@ -254,34 +273,52 @@
             // 思路：
             // 点击按钮：收集信息，调用接口，根据反馈做后续动作
         $('#btn').click(function() {
-            // （1）获取评论信息
-            var name = $("#comment_name").val().trim();
-            var content = $("#comment_input").val().trim();
-            console.log(name, content);
+                // （1）获取评论信息
+                var name = $("#comment_name").val().trim();
+                var content = $("#comment_input").val().trim();
+                // console.log(name, content);
 
-            // 简单判断
-            if (name.length === 0 || content.length === 0) {
-                alert('不能为空！')
-                return;
-            }
+                // 简单判断
+                if (name.length === 0 || content.length === 0) {
+                    alert('不能为空！')
+                    return;
+                }
 
-            // （2）调用接口，根据反馈做后续动作
-            comment.add(name, content, id).then(function(res) {
+                // （2）调用接口，根据反馈做后续动作
+                comment.add(name, content, id).then(function(res) {
+                    console.log(res);
+                    if (res.code === 200) {
+                        // 评论成功
+                        // 1.清空评论区域
+                        $("#comment_name").val('')
+                        $("#comment_input").val('')
+                            // 2.重新加载评论并且显示
+                        getComment();
+                    }
+
+                })
+
+            })
+            //  3.展示评论
+            // 思路：调用接口，获取评论，模板引擎渲染页面
+        getComment();
+
+        function getComment() {
+            comment.get(id).then(function(res) {
                 console.log(res);
-                if (res.code === 200) {
-                    // 评论成功
-                    // 1.清空评论区域
-                    $("#comment_name").val('')
-                    $("#comment_input").val('')
-                        // 2.重新加载评论并且显示
-                } else {
-                    alert(res.msg)
+                if (res.code == 200) {
+                    // 时间戳
+
+
+                    var htmlStr = template('tmp', res)
+                        // console.log(htmlStr);
+                    $('#comment_list').html(htmlStr)
+
                 }
 
             })
-
-        })
+        }
     </script>
 </body>
 
-</html>s
+</html>sss
