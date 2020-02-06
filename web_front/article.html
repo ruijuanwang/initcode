@@ -58,9 +58,9 @@
             <div class="breadcrumb">
                 当前位置： <a href="#">首页</a> &gt; <a href="#">科技</a> &gt; 文章详情
             </div>
-            <h3 class="article_title">马斯克的新花样？连接人脑和电脑的初创公司又筹了一笔钱</h3>
-            <div class="article_info">杰克 发布于 2019-05-08 07:08:46&nbsp;&nbsp;&nbsp;分类: 奇趣事&nbsp;&nbsp;&nbsp;阅读: (98)&nbsp;&nbsp;&nbsp;评论: (0)</div>
-            <div class="article_con">
+            <h3 class="article_title" id="title">马斯克的新花样？连接人脑和电脑的初创公司又筹了一笔钱</h3>
+            <div class="article_info"><span id="author">杰克</span> 发布于 <span id="date">2019-05-08 07:08:46</span>&nbsp;&nbsp;&nbsp;分类: <span id="type_name">奇趣事</span>&nbsp;&nbsp;&nbsp;阅读: (<span id="read">98</span>)&nbsp;&nbsp;&nbsp;评论: (<span id="comment">98</span>)</div>
+            <div class="article_con" id="conntent">
 
                 <p>“上天入地”还不够？硅谷“钢铁侠”马斯克名下一家低调的公司最近又融了一大笔钱。</p>
 
@@ -75,7 +75,7 @@
 
             </div>
             <div class="article_links">
-                上一篇： <a href="#">世界第一台可以玩游戏的冰箱</a><br> 下一篇： <a href="#">世界第一个可以玩游戏的马桶、世界上第一个可以玩游戏的茶杯</a>
+                上一篇： <a href="#" id="prev">世界第一台可以玩游戏的冰箱</a><br> 下一篇： <a href="#" id="next">世界第一个可以玩游戏的马桶、世界上第一个可以玩游戏的茶杯</a>
             </div>
 
             <form action="" class="comment_form">
@@ -213,10 +213,26 @@
         // 1.文章详情页面显示
         // 思路
         // 根据获取过来的id值，发请求，获取数据，渲染页面
+        // (1)获取地址栏中传过来的id
         var id = window.location.search.substr(4)
             // console.log(id);
+            // (1)调用接口，获取数据
         category.getDetail(id).then(function(res) {
             console.log(res);
+            if (res.code === 200) {
+                var t = res.data;
+                // 渲染页面
+                // 给对应的dom元素赋值
+                $('#author').html(t.author)
+                $('#comment').html(t.comment)
+                $('#content').html(t.content)
+                $('#date').html(t.date)
+                    // 上一章，下一章文章导航
+
+                $('#read').html(t.read)
+                $('#title').html(t.title)
+                $('#type_name').html(t.type_name)
+            }
 
         })
     </script>
