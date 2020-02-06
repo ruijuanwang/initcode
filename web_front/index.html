@@ -147,14 +147,14 @@
         <div class="right_con">
             <div class="common_wrap">
                 <h3><i class="fa fa-bar-chart"></i> 一周热门排行</h3>
-                <ul class="content_list">
-                    <li><span class="first">1</span><a href="#">神奇的水滴摄影，泡泡中的世界泡泡中的世界</a></li>
+                <ul class="content_list" id="rank">
+                    <!-- <li><span class="first">1</span><a href="#">神奇的水滴摄影，泡泡中的世界泡泡中的世界</a></li>
                     <li><span class="second">2</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
                     <li><span class="third">3</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
                     <li><span>4</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
                     <li><span>5</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
                     <li><span>6</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
-                    <li><span>7</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
+                    <li><span>7</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li> -->
                 </ul>
             </div>
             <div class="common_wrap">
@@ -245,6 +245,18 @@
 
             {{/each}}
     </script>
+    <!-- 获取文章热门排行 -->
+    <script id='tmpRank' type="text/html">
+        {{each data item idx}} {{if idx==0}}
+        <li><span class="first">{{idx+1}}</span><a href="#">{{item.title}}</a></li>
+        {{else if idx==1}}
+        <li><span class="second">{{idx+1}}</span><a href="#">{{item.title}}</a></li>
+        {{else if idx==2}}
+        <li><span class="third">{{idx+1}}</span><a href="#">{{item.title}}</a></li>
+        {{else}}
+        <li><span>{{idx+1}}</span><a href="#">{{item.title}}</a></li>
+        {{/if}} {{/each}}
+    </script>
     <script>
         // 1.获取文章的类别并显示
         category.get().then(function(res) {
@@ -260,10 +272,27 @@
 
         // 2.获取焦点图并且显示
         article.getFouceFive().then(function(res) {
-            console.log(res);
-            // 渲染
-            var htmrStr = template('focus', res)
-            $("#focus_list").html(htmrStr);
+                console.log(res);
+                // 渲染
+                if (res.code === 200) {
+                    var htmrStr = template('focus', res)
+                    $("#focus_list").html(htmrStr);
+                } else {
+                    alert(res.msg)
+                }
+
+            })
+            // 3.文章热门排行
+
+        article.getRank(1).then(function(res) {
+            // console.log(res);
+            if (res.code === 200) {
+                var htmrStr = template('tmpRank', res)
+                $("#rank").html(htmrStr);
+            } else {
+                alert(res.msg)
+            }
+
 
         })
     </script>

@@ -17,5 +17,9 @@ var APILIST = {
     // 获取文章焦点图
     article_get: BASEUPL + "/search",
 
+    // 获取文章热门排行
+    article_rank: BASEUPL + "/rank",
+
+
 
 }

@@ -17,5 +17,10 @@ var article = {
         return $.get(APILIST.article_get, { 'id': id })
     },
 
+    // 获取文章热门排行
+    getRank: function(type) {
+        return $.get(APILIST.article_rank, { 'type': type });
+    }
+
 
 }
