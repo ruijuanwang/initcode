@@ -20,6 +20,11 @@ var article = {
     // 获取文章热门排行
     getRank: function(type) {
         return $.get(APILIST.article_rank, { 'type': type });
+    },
+
+      // 获取最新资讯
+        getLastest: function() {
+        return $.get(APILIST.article_last)
     }
 
 
