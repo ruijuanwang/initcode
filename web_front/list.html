@@ -58,7 +58,7 @@
         <div class="left_con setfr">
 
             <div class="list_title">
-                <h3>科 技</h3>
+                <h3 id="cateName">科 技</h3>
             </div>
             <!-- 显示列表的容器 -->
             <div id="list">
@@ -223,6 +223,17 @@
                 var htmlStr = template('cate', res);
                 $("#left_menu").html(htmlStr)
                 $("#lever_two_menu").append(htmlStr)
+
+                // 栏目的标题显示
+                // 思路：
+                // 在获取回来所有的类别之后，根据当前地址栏中的id值，来找到要显示的类别的文字
+                //res.data是一个数组，每一个元素就是一个对象，
+                // 取出对象的id属性与当前地址栏中id进行比较，找到显示在页面的标题栏上
+                res.data.forEach(function(item) {
+                    if (item.id == id) {
+                        $("#cateName").html(item.name)
+                    }
+                })
             }
 
         })
