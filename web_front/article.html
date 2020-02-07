@@ -220,7 +220,7 @@
         {{each data item}}
         <div class="comment_detail_list">
             <div class="person_pic fl">{{item.name.substr(0,1)}}</div>
-            <div class="name_time fl"><b>{{item.name}}</b><span>{{item.dt}}</span></div>
+            <div class="name_time fl"><b>{{item.name}}</b><span>{{item.relativeTime}}</span></div>
             <div class="comment_text fl">
                 {{item.content}}
             </div>
@@ -230,6 +230,10 @@
     </script>
 
     <script>
+        // 全局设置中文
+        dayjs.locale('zh-cn');
+        // 使用相对插件
+        dayjs.extend(dayjs_plugin_relativeTime);
         // 1.文章详情页面显示
         // 思路
         // 根据获取过来的id值，发请求，获取数据，渲染页面
@@ -308,7 +312,10 @@
                 console.log(res);
                 if (res.code == 200) {
                     // 时间戳
-
+                    res.data.forEach(function(item) {
+                        // 新增一个属性relativeTime 
+                        item.relativeTime = getRelativeTime(item.dt)
+                    })
 
                     var htmlStr = template('tmp', res)
                         // console.log(htmlStr);
@@ -317,6 +324,11 @@
                 }
 
             })
+        }
+        // 定义一个函数，专门把时间戳转换成相对时间（1小时前）
+        // dt:时间戳
+        function getRelativeTime(dt) {
+            return dayjs(dt).fromNow();
         }
     </script>
 </body>
