@@ -149,6 +149,8 @@
 
 
     <script src="./js/jquery-1.12.4.min.js"></script>
+    <!-- 懒加载 -->
+    <script src="./js/lazyload.js"></script>
     <script src="./js/jquery.twbsPagination.js"></script>
     <script src="./js/template-web.js"></script>
     <script src="./js/utils/config.js"></script>
@@ -173,7 +175,7 @@
 
         {{each data item}}
         <div class="common_news_list">
-            <a href="./article.html?id={{item.id}}" class="list_pic"><img src="{{item.cover}}" alt=""></a>
+            <a href="./article.html?id={{item.id}}" class="list_pic"><img class="img" data-src="{{item.cover}}" src="./images/lazyload.png" alt=""></a>
             <h4><a href="./article.html?id={{item.id}}">{{item.title}} </a></h4>
             <p>{{item.intro}}</p>
             <div class="new_info">
@@ -251,6 +253,12 @@
 
                 var htmrStr = template('lists', res)
                 $("#list").html(htmrStr);
+                // 图片懒加载
+                // 1.引入
+                // 2.给图片加上一个data-src属性，来指向真实地址，src="占位图片"
+                // 3.调用方法：
+                // lazyload();
+                $(".img").lazyload();
                 // 如果获取过来的总页数小于等于1页，则不需要显示分页条
                 if (res.pages <= 1) {
                     return;
