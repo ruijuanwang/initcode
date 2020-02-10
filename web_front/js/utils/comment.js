@@ -1,6 +1,6 @@
 // 和评论有关的
 // 添加文章评论
-var comment = {
+let comment = {
     add: function(name, content, aritcle_id) {
         return $.post(APILIST.comment_add, {
             'name': name,

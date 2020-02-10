@@ -108,8 +108,8 @@
         console.log(window.location.search);
 
         // 截取字符串
-        var search = window.location.search;
-        var id = search.substr(4);
+        let search = window.location.search;
+        let id = search.substr(4);
         // console.log(id);
 
         getAndShowCategory()
@@ -120,6 +120,7 @@
         function getAndShow(id) {
             article.getById(id).then(function(res) {
                 console.log(res);
+
                 if (res.code === 200) {
                     // 获取成功，把结果显示页面上，把数值填入表单中
                     $('#title').val(res.data.title)

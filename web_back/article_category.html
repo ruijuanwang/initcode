@@ -184,30 +184,28 @@
         {{/each}}
     </script>
     <script>
-        // 获取文章列表思路：
-        // 1.页面加载，请求接口取数据，渲染表格中
-        getAndShow();
-
         function getAndShow() {
-            category.get().then(function(res) {
+            category.get().then(res => {
                 console.log(res);
                 // 2.渲染表格，定义一个模板引擎
-                var htmlStr = template('tem_cate', res)
+                let htmlStr = template('tem_cate', res)
                     // 显示在tbody中
                 $("#category_table ").html(htmlStr);
             })
 
         }
-
+        // 获取文章列表思路：
+        // 1.页面加载，请求接口取数据，渲染表格中
+        getAndShow();
         // 2.添加分类：
         // 这里用到了bootstrap插件模态框
         // 他会在页面弹出一个对话框
         // 点击添加按钮
         // （1）获取数据
         // （2)发请求，简单判断，隐藏模态框，重新渲染页面
-        $("#model_add ").click(function() {
-                var name = $("#name ").val().trim();
-                var slug = $("#slug ").val().trim();
+        $("#model_add ").click(() => {
+                let name = $("#name ").val().trim();
+                let slug = $("#slug ").val().trim();
                 // 简单判断
                 // console.log(res);
                 if (name.length === 0 || slug.length === 0) {
@@ -215,11 +213,14 @@
                     return;
                 }
                 // 发请求
-                category.add(name, slug).then(function(res) {
+                category.add(name, slug).then(res => {
 
                     // console.log(res);
-
-                    if (res.code == 200) {
+                    let {
+                        code,
+                        msg
+                    } = res
+                    if (code == 200) {
                         // alert(1)
                         // 添加成功
                         // （1）清空内容
@@ -231,14 +232,14 @@
                         getAndShow();
 
                     } else {
-                        alert(res.msg)
+                        alert(msg)
                     }
 
 
                 })
             })
             //    关闭按钮隐藏模态框
-        $("#model_shutoff ").click(function() {
+        $("#model_shutoff ").click(() => {
                 $("#addModal ").modal('hide');
 
             })
@@ -249,15 +250,21 @@
         $("#category_table ").on("click ", ".del ", function() {
                 // alert(1)
                 // 获取自定义属性
-                id = $(this).attr("data-id ");
+                id = $(this).attr("data-id");
                 // 请求
-                category.del(id).then(function(res) {
+                category.del(id).then(res => {
                     // console.log(res);
-                    if (res.code == 200) {
+                    // console.log(res);
+                    let {
+                        code,
+                        msg
+                    } = res
+                    if (code == 200) {
                         // 删除成功，重新获取数据 渲染页面
+                        alert('删除成功！')
                         getAndShow();
                     } else {
-                        alert(res.msg);
+                        alert(msg);
                     }
 
                 })
@@ -268,9 +275,9 @@
             // （2）点击保存。发送请求，做后续动作
         $("#category_table").on("click", ".edit", function() {
                 // 获取自定义属性
-                var name = $(this).attr("data-name");
-                var slug = $(this).attr("data-slug");
-                var id = $(this).attr("data-id");
+                let name = $(this).attr("data-name");
+                let slug = $(this).attr("data-slug");
+                let id = $(this).attr("data-id");
                 // 给模态框中的input设置值
                 $('#edit_name').val(name)
                 $('#edit_slug').val(slug)
@@ -283,18 +290,23 @@
             //    点击保存俺按钮，
             // （1）获取input中的值,简单判断
             // （2)发请求，做后续动作 成功隐藏模态框，重新渲染页面
-        $("#model_save").click(function() {
-                var new_name = $('#edit_name').val().trim();
-                var new_slug = $('#edit_slug').val().trim();
-                var id = $('#edit_id').val().trim()
+        $("#model_save").click(() => {
+                let new_name = $('#edit_name').val().trim();
+                let new_slug = $('#edit_slug').val().trim();
+                let id = $('#edit_id').val().trim()
                 if (new_name.length === 0 || new_slug.length === 0) {
                     alert("不能为空！ ")
                     return;
                 }
                 // 请求
-                category.edit(id, new_name, new_slug).then(function(res) {
+                category.edit(id, new_name, new_slug).then(res => {
                     console.log(res);
-                    if (res.code == 200) {
+                    let {
+
+                        code,
+                        msg
+                    } = res
+                    if (code === 200) {
                         // 编辑成功
                         //（1） 隐藏模态框
                         $("#editModal ").modal('hide');
@@ -302,7 +314,7 @@
                         getAndShow();
 
                     } else {
-                        alert(res.msg)
+                        alert(msg)
                     }
 
 
@@ -310,7 +322,7 @@
 
             })
             //    关闭按钮隐藏模态框
-        $("#model_shutoff ").click(function() {
+        $("#model_shutoff ").click(() => {
             $("#editModal ").modal('hide');
 
         })

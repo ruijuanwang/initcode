@@ -248,45 +248,57 @@
         var id = window.location.search.substr(4)
             // console.log(id);
             // (2)调用接口，获取数据
-        category.getDetail(id).then(function(res) {
-                // console.log(res);
+        category.getDetail(id).then(res => {
+                console.log(res);
                 if (res.code === 200) {
-                    var t = res.data;
-                    // 渲染页面
-                    // 给对应的dom元素赋值
-                    $('#author').html(t.author)
-                    $('#comment').html(t.comment)
-                    $('#content').html(t.content)
-                    $('#date').html(t.date)
+                    let {
+                        author,
+                        comment,
+                        content,
+                        date,
+                        next,
+                        prev,
+                        read,
+                        title,
+                        type_name
+
+                    } = res.data
+                        // let t = res.data;
+                        // 渲染页面
+                        // 给对应的dom元素赋值
+                    $('#author').html(author)
+                    $('#comment').html(comment)
+                    $('#content').html(content)
+                    $('#date').html(date)
                         // 上一章，下一章文章导航
                         // 有的没有上下章，所以要先判断
 
-                    if (t.next) {
-                        $('#next').attr('href', './article.html?id=' + t.next.id)
-                        $('#next').text(t.next.title)
+                    if (next) {
+                        $('#next').attr('href', './article.html?id=' + next.id)
+                        $('#next').text(next.title)
                     } else {
                         $('#next').text("无")
                     }
-                    if (t.prev) {
-                        $('#prev').attr('href', './article.html?id=' + t.prev.id)
-                        $('#prev').text(t.prev.title)
+                    if (prev) {
+                        $('#prev').attr('href', './article.html?id=' + prev.id)
+                        $('#prev').text(prev.title)
                     } else {
                         $('#prev').text("无")
                     }
 
-                    $('#read').html(t.read)
-                    $('#title').html(t.title)
-                    $('#type_name').html(t.type_name)
+                    $('#read').html(read)
+                    $('#title').html(title)
+                    $('#type_name').html(type_name)
                 }
 
             })
             // 2.添加评论
             // 思路：
             // 点击按钮：收集信息，调用接口，根据反馈做后续动作
-        $('#btn').click(function() {
+        $('#btn').click(() => {
                 // （1）获取评论信息
-                var name = $("#comment_name").val().trim();
-                var content = $("#comment_input").val().trim();
+                let name = $("#comment_name").val().trim();
+                let content = $("#comment_input").val().trim();
                 // console.log(name, content);
 
                 // 简单判断
@@ -297,13 +309,17 @@
                 }
 
                 // （2）调用接口，根据反馈做后续动作
-                comment.add(name, content, id).then(function(res) {
+                comment.add(name, content, id).then(res => {
                     console.log(res);
-                    if (res.code === 200) {
+                    let {
+                        code
+                    } = res
+                    if (code === 200) {
                         // 评论成功
                         // 1.清空评论区域
                         $("#comment_name").val('')
                         $("#comment_input").val('')
+                        bootbox.alert('评论成功！')
                             // 2.重新加载评论并且显示
                         getComment();
                     }
@@ -313,14 +329,18 @@
             })
             //  3.展示评论
             // 思路：调用接口，获取评论，模板引擎渲染页面
-        getComment();
 
-        function getComment() {
-            comment.get(id).then(function(res) {
+        // let getComment=function()
+        let getComment = () => {
+            comment.get(id).then(res => {
                 console.log(res);
-                if (res.code == 200) {
+                let {
+                    code,
+                    data
+                } = res
+                if (code == 200) {
                     // 时间戳
-                    res.data.forEach(function(item) {
+                    data.forEach(item => {
                         // 新增一个属性relativeTime 
                         item.relativeTime = getRelativeTime(item.dt)
                     })
@@ -333,9 +353,10 @@
 
             })
         }
+        getComment();
         // 定义一个函数，专门把时间戳转换成相对时间（1小时前）
         // dt:时间戳
-        function getRelativeTime(dt) {
+        let getRelativeTime = dt => {
             return dayjs(dt).fromNow();
         }
     </script>

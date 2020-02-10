@@ -8,7 +8,7 @@
 // 这个对象上有then()这个方法，then()的功能是获取返回的数据
 // $.post().then(function(res){ res就是接口返回的数据 })
 
-var user = {
+let user = {
     // 用户登录
     login: function(name, password) {
         return $.post(APILIST.user_login, {

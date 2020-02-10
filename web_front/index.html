@@ -280,10 +280,14 @@
 
     <script>
         // 1.获取文章的类别并显示
-        category.get().then(function(res) {
+        category.get().then(res => {
             console.log(res);
-            if (res.code === 200) {
-                var htmlStr = template('cate', res);
+            // 对象解构
+            let {
+                code
+            } = res
+            if (code === 200) {
+                let htmlStr = template('cate', res);
                 $("#left_menu").html(htmlStr)
                 $("#lever_two_menu").append(htmlStr)
             }
@@ -292,26 +296,34 @@
 
 
         // 2.获取焦点图并且显示
-        article.getFouceFive().then(function(res) {
+        article.getFouceFive().then(res => {
                 console.log(res);
+                let {
+                    code,
+                    msg
+                } = res
                 // 渲染
-                if (res.code === 200) {
-                    var htmrStr = template('focus', res)
+                if (code === 200) {
+                    let htmrStr = template('focus', res)
                     $("#focus_list").html(htmrStr);
                 } else {
-                    alert(res.msg)
+                    alert(msg)
                 }
 
             })
             // 3.文章热门排行
 
-        article.getRank().then(function(res) {
-            // console.log(res);
-            if (res.code === 200) {
-                var htmrStr = template('tmpRank', res)
+        article.getRank().then(res => {
+            // console.log(res); 
+            let {
+                code,
+                msg
+            } = res
+            if (code === 200) {
+                let htmrStr = template('tmpRank', res)
                 $("#rank").html(htmrStr);
             } else {
-                alert(res.msg)
+                alert(msg)
             }
 
 
@@ -320,13 +332,17 @@
 
         // 4.最新资讯
         // 调用接口，获取数据，template渲染
-          article.getLastest().then(function(res)  {            
+          article.getLastest().then(res =>  {            
             console.log(res);
-            if (res.code === 200) {
-                var htmrStr = template('tmpNews', res)
+            let {
+                code,
+                msg
+            } = res
+            if (code === 200) {
+                let htmrStr = template('tmpNews', res)
                 $("#new_list").html(htmrStr);
             } else {
-                alert(res.msg)
+                alert(msg)
             }        
         })
     </script>

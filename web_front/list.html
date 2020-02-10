@@ -211,16 +211,21 @@
         // window.localtion  http://127.0.0.1:5500/web_front/list.html?id=1
         // window.location.search  ?id=1
         // window.location.search.substr(4) 1
-        var id = window.location.search.substr(4);
+        let id = window.location.search.substr(4);
         console.log(id);
 
 
         // （2）获取文章的类别并显示页面
-        category.get().then(function(res) {
+        category.get().then(res => {
             // 添加一个属性，用于判断高亮
             res.curId = id
+            let {
+                code,
+                msg
+            } = res
             console.log(res);
-            if (res.code === 200) {
+            if (code === 200) {
+
                 // 渲染结构
                 var htmlStr = template('cate', res);
                 $("#left_menu").html(htmlStr)
@@ -231,7 +236,7 @@
                 // 在获取回来所有的类别之后，根据当前地址栏中的id值，来找到要显示的类别的文字
                 //res.data是一个数组，每一个元素就是一个对象，
                 // 取出对象的id属性与当前地址栏中id进行比较，找到显示在页面的标题栏上
-                res.data.forEach(function(item) {
+                res.data.forEach(item => {
                     if (item.id == id) {
                         $("#cateName").html(item.name)
                     }
@@ -247,7 +252,7 @@
         getAndShow();
         // 定义函数是为了点击页码数重新获取并且显示
         function getAndShow() {
-            article.getList(id, curPage).then(function(res) {
+            article.getList(id, curPage).then(res => {
                 console.log(res);
                 // 渲染
 
@@ -293,14 +298,18 @@
         // 思路：
         // 传id，调用接口，获取数据，渲染页面
 
-        article.getRank(id).then(function(res) {
-            // console.log(res);
-            if (res.code === 200) {
+        article.getRank(id).then(res => {
+            console.log(res);
+            let {
+                code,
+                msg
+            } = res
+            if (code === 200) {
                 // 渲染
-                var htmrStr = template('tmpRank', res)
+                let htmrStr = template('tmpRank', res)
                 $("#rank").html(htmrStr);
             } else {
-                alert(res.msg)
+                alert(msg)
             }
 
 
@@ -308,4 +317,4 @@
     </script>
 </body>
 
-</html>ss
+</html>
